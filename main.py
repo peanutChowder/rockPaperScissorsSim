@@ -2,7 +2,7 @@ import pygame, sys
 
 import GameLogic
 
-TEAM_SIZES = 30
+TEAM_SIZES = 10
 WINDOW_SIZE = (1200, 800)
 
 pygame.init()
@@ -29,8 +29,12 @@ def main():
         screen.fill((255,255,255))
         
         for icon in GL.getIconObjs():
+            GL.iconWindowBounce(icon, WINDOW_SIZE)
+            icon.move()
             screen.blit(icon.getImg(), icon.getImgRect())
-        pygame.display.update()
+        pygame.display.flip()
+
+        pygame.time.delay(10)
 
 main()
 

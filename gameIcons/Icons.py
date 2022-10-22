@@ -6,7 +6,6 @@ class Icons():
         self.id = id
         self.png = png
         self.velocity = [None, None]
-        self.location = [None, None]
         self.iconClass = iconClass
 
         self.preyOrder = {
@@ -26,15 +25,19 @@ class Icons():
         return self.velocity
 
     def setLocation(self, locX: int, locY: int):
-        self.location = [locX, locY]
+        self.imgRect.center = [locX, locY]
 
-    def getLocation(self) -> list[int, int]:
-        return self.location
+    def getLocation(self) -> tuple[float, float]:
+        return self.imgRect.center
 
     def getImg(self) -> pygame.Surface:
         return self.img
 
     def getImgRect(self):
         return self.imgRect
+
+    def move(self) -> None:
+        self.imgRect.x += self.velocity[0]
+        self.imgRect.y += self.velocity[1]
 
     
