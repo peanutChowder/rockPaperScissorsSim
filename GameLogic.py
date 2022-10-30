@@ -55,8 +55,6 @@ class GameLogic():
 
     def handleCollide(self, icon: gameIcons.Icons.Icons):
         self.iconRects.pop(icon.id)
-        
-        # Collision happened
         collisionInfo =  icon.getImgRect().collidedict(self.iconRects, 1)
 
         if collisionInfo != None:
