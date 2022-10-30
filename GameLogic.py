@@ -66,6 +66,11 @@ class GameLogic():
             if icon.isPreyOf(otherIcon):
                 icon.convertClass(otherIcon.getIconClass())
 
+            if icon.getImgRect().collidepoint(otherIcon.getImgRect().center):
+                velocity = icon.getVelocity()
+                icon.setVelocity(*otherIcon.getVelocity())
+                otherIcon.setVelocity(*velocity)
+
             
 
         self.iconRects[icon.id] = icon.getImgRect()
