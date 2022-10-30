@@ -2,21 +2,47 @@ import pygame
 
 class Icons():
     imgSize = (30, 30)
-    def __init__(self, id: int, png: str, iconClass: str) -> None:
-        self.id = id
-        self.png = png
-        self.velocity = [None, None]
-        self.iconClass = iconClass
+    iconClasses = ["Rock", "Paper", "Scissors"]
 
-        self.preyOrder = {
-            "Rock": "scissors",
-            "Paper": "rock",
-            "Scissors": "paper"
+    @staticmethod
+    def getPngPath(iconClass: str):
+        return f"icons/{iconClass.lower()}.png"
+
+    def __init__(self, idNum: int, iconClass: str) -> None:
+        self.velocity = [None, None]
+        self.weaknessOrder = {
+            "Rock": "Paper",
+            "Paper": "Scissors",
+            "Scissors": "Rock"
         }
 
-        img = pygame.image.load(self.png)
-        self.img =  pygame.transform.scale(img, Icons.imgSize)
+        self.iconClass = iconClass
+        self.id = f"{iconClass},{idNum}"
+        self.png = Icons.getPngPath(iconClass)
+        self.img = self.getPygameImage()
         self.imgRect = self.img.get_rect()
+        
+
+    def getPygameImage(self) -> pygame.surface.Surface:
+        img = pygame.image.load(self.png)
+        return pygame.transform.scale(img, Icons.imgSize)
+
+    def convertClass(self, newClass: str):
+        x, y = self.imgRect.center
+        self.iconClass = newClass
+        self.png = Icons.getPngPath(newClass)
+        self.img = self.getPygameImage()
+        self.imgRect = self.img.get_rect()
+        self.setLocation(x, y)
+
+    def getIconClass(self) -> str:
+        return self.iconClass
+
+    def isPreyOf(self, otherIcon: 'Icons'):
+        weakness = self.weaknessOrder[self.iconClass]
+
+        return otherIcon.getIconClass() == weakness
+
 
     def setVelocity(self, velX: int, velY: int):
         self.velocity = [velX, velY]
